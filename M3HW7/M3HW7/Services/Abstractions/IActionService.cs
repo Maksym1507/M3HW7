@@ -1,6 +1,6 @@
 ﻿namespace M3HW7.Services.Abstractions
 {
-    public interface IActions
+    public interface IActionService
     {
         public string CallInfo();
 

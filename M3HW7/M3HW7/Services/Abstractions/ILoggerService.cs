@@ -1,8 +1,12 @@
-﻿namespace M3HW7.Services.Abstractions
+﻿using M3HW7.Enums;
+
+namespace M3HW7.Services.Abstractions
 {
-    public interface ILogger
+    public interface ILoggerService
     {
         event Predicate<int> BackupMessageHandler;
+
+        public string FormLog(string message, LogType logType);
 
         Task FirstMethodAsync(string log);
 

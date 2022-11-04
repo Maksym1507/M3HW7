@@ -2,13 +2,20 @@
 using M3HW7.Exceptions;
 using M3HW7.Services.Abstractions;
 
-namespace M3HW7.Models
+namespace M3HW7.Services
 {
-    public class Actions : IActions
+    public class ActionService : IActionService
     {
+        private readonly ILoggerService _loggerService;
+
+        public ActionService(ILoggerService loggerService)
+        {
+            _loggerService = loggerService;
+        }
+
         public string CallInfo()
         {
-            return $"{DateTime.UtcNow}: {LogType.Info}: Start method: {nameof(CallInfo)}";
+            return _loggerService.FormLog($"Start method: {nameof(CallInfo)}", LogType.Info);
         }
 
         public void CallWarning()

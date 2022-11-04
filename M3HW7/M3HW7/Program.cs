@@ -10,10 +10,11 @@ namespace M3HW7
         private static async Task Main()
         {
             var serviceProvider = new ServiceCollection()
-                .AddTransient<IConfigurationService, ConfigurationService>()
-                .AddTransient<IFileService, FileService>()
-                .AddTransient<IActions, Actions>()
-                .AddSingleton<ILogger, Logger>()
+                .AddSingleton<IConfigurationService, ConfigurationService>()
+                .AddSingleton<IFileService, FileService>()
+                .AddTransient<IActionService, ActionService>()
+                .AddSingleton<Logger>()
+                .AddTransient<ILoggerService, LoggerService>()
                 .AddTransient<Starter>()
                 .BuildServiceProvider();
 

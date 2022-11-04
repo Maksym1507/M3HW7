@@ -2,6 +2,6 @@
 {
     public interface IFileService
     {
-        public Task WriteToFile(string data);
+        public Task WriteLogsToFile(string data, string directoryName, string fileName);
     }
 }

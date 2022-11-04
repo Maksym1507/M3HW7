@@ -2,19 +2,16 @@
 
 namespace M3HW7.Services
 {
-    internal class FileService : IFileService
+    public class FileService : IFileService
     {
-        private const string DirectoryNameForBackup = "Backup";
-        public async Task WriteToFile(string data)
+        public async Task WriteLogsToFile(string data, string directoryName, string fileName)
         {
-            if (!Directory.Exists(DirectoryNameForBackup))
+            if (!Directory.Exists(directoryName))
             {
-                Directory.CreateDirectory(DirectoryNameForBackup);
+                Directory.CreateDirectory(directoryName);
             }
 
-            var streamWriter = new StreamWriter($@"Backup\{DateTime.UtcNow:HH.mm.ss.fffff dd.MM.yyyy}.txt");
-            await streamWriter.WriteAsync(data);
-            await streamWriter.FlushAsync();
+            await File.WriteAllTextAsync($@"{directoryName}\{fileName}", data);
         }
     }
 }

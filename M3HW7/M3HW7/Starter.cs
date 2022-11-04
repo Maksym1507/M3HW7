@@ -8,29 +8,30 @@ namespace M3HW7
     {
         private readonly IConfigurationService _configurationService;
 
-        private readonly ILogger _logger;
+        private readonly ILoggerService _loggerService;
 
-        private readonly IActions _actions;
+        private readonly IActionService _actions;
 
-        private readonly Config? _config;
+        private Config? _config;
 
-        private string _log;
+        private string? _log;
 
-        public Starter(IConfigurationService configurationService, ILogger logger, IActions actions)
+        public Starter(IConfigurationService configurationService, ILoggerService loggerService, IActionService actions)
         {
-            _logger = logger;
+            _loggerService = loggerService;
             _configurationService = configurationService;
             _actions = actions;
-            _config = _configurationService.DesiarializeConfig("config.json");
         }
 
         public async Task Run()
         {
-            _logger.BackupMessageHandler += x =>
+            _config = _configurationService.DesiarializeConfig("config.json");
+
+            _loggerService.BackupMessageHandler += x =>
             {
                 bool isValid = false;
 
-                if (x % _config!.Configuration.ConfigurationNumber == 0)
+                if (x % _config!.NumberConfig!.ConfigurationNumber == 0)
                 {
                     isValid = true;
                 }
@@ -57,15 +58,15 @@ namespace M3HW7
                 }
                 catch (BusinessException ex)
                 {
-                    _log = $"{DateTime.UtcNow}: {LogType.Warning}: Action got this custom Exception: {ex.Message}";
+                    _log = _loggerService.FormLog($"Action got this custom Exception: {ex.Message}", LogType.Warning);
                 }
                 catch (Exception ex)
                 {
-                    _log = $"{DateTime.UtcNow}: {LogType.Error}: Action failed by reason: {ex.Message}";
+                    _log = _loggerService.FormLog($"Action failed by reason: {ex.Message}", LogType.Error);
                 }
 
-                await _logger.FirstMethodAsync(_log);
-                await _logger.SecondMethodAsync(_log);
+                await _loggerService.FirstMethodAsync(_log!);
+                await _loggerService.SecondMethodAsync(_log!);
             }
         }
     }

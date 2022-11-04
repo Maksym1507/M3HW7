@@ -1,49 +1,16 @@
 ﻿using System.Text;
-using System.Threading;
-using M3HW7.Services.Abstractions;
 
 namespace M3HW7.Models
 {
-    public class Logger : ILogger
+    public class Logger
     {
-        private IFileService _fileService;
-
-        private int _quantityOfStrings;
-
-        private StringBuilder _logs;
-
-        public Logger(IFileService fileService)
+        public Logger()
         {
-            _fileService = fileService;
-            _logs = new StringBuilder();
+            Logs = new StringBuilder();
         }
 
-        public event Predicate<int> BackupMessageHandler;
+        public int QuantityOfStrings { get; set; }
 
-        public async Task FirstMethodAsync(string log)
-        {
-            await AddLog(log);
-        }
-
-        public async Task SecondMethodAsync(string log)
-        {
-            await AddLog(log);
-        }
-
-        public async Task DoBackup()
-        {
-            await _fileService.WriteToFile(_logs.ToString());
-        }
-
-        private async Task AddLog(string log)
-        {
-            _logs.AppendLine(log);
-            _quantityOfStrings++;
-
-            if (BackupMessageHandler(_quantityOfStrings))
-            {
-                await DoBackup();
-            }
-        }
+        public StringBuilder Logs { get; set; }
     }
 }
